@@ -1,0 +1,98 @@
+/* Responsive overrides for narrow screens.
+   Deliberately scoped to @media blocks only — nothing here changes anything
+   at desktop widths, since none of these rules apply above the breakpoint.
+   Uses !important because these classes sit alongside existing inline
+   styles (kept as-is, unchanged) and need to win over them at narrow widths. */
+
+* { box-sizing: border-box; }
+html, body { max-width: 100%; overflow-x: hidden; }
+
+/* Hidden by default (desktop). Only ever shown inside the mobile media
+   query below, so these two elements have zero effect above 860px. */
+.app-hamburger { display: none; }
+.app-sidebar-backdrop { display: none; }
+
+@media (max-width: 860px) {
+  .app-hamburger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 14px;
+    left: 14px;
+    z-index: 50;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid #E1DFD5;
+    background: #FFFFFF;
+    color: #20241F;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  }
+
+  /* Sidebar becomes a slide-in drawer, hidden off-screen until toggled open.
+     `position: fixed` and the transform only apply inside this media query,
+     so at desktop widths the sidebar keeps behaving exactly as it always
+     did — a normal, always-visible flex item with no transform at all. */
+  .app-sidebar {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 45;
+    background: #F6F5F1;
+    transform: translateX(-100%);
+    transition: transform .25s ease;
+    box-shadow: 2px 0 20px rgba(0,0,0,.15);
+    overflow-y: auto;
+  }
+  .app-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .app-sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.35);
+    z-index: 40;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s ease;
+  }
+  .app-sidebar-backdrop.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .app-main {
+    padding: 16px !important;
+    padding-top: 68px !important;
+    max-width: 100% !important;
+  }
+
+  .grid-2,
+  .grid-2-wide,
+  .grid-4,
+  .grid-goal-form {
+    grid-template-columns: 1fr !important;
+  }
+
+  .stage-name-input {
+    width: 140px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-main {
+    padding: 12px !important;
+    padding-top: 64px !important;
+  }
+  .auth-card,
+  .onboard-card {
+    width: calc(100vw - 48px) !important;
+    padding: 24px !important;
+  }
+}
